@@ -43,7 +43,10 @@ exports.handler = async function (event) {
 
   const { apiKey, question, answer } = body || {};
 
-  if (!apiKey || apiKey.trim().length === 0)
+  // 优先使用请求中的 Key，否则使用服务器环境变量
+  const key = (apiKey && apiKey.trim()) || process.env.GLM_API_KEY || "";
+
+  if (!key || key.length === 0)
     return { statusCode: 400, headers, body: JSON.stringify({ error: "请提供有效的 API Key。" }) };
   if (!answer || answer.trim().length === 0)
     return { statusCode: 400, headers, body: JSON.stringify({ error: "候选人回答不能为空。" }) };
@@ -59,7 +62,7 @@ exports.handler = async function (event) {
 
     const resp = await fetch(GLM_API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + apiKey.trim() },
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
       body: JSON.stringify({
         model: MODEL,
         messages: [
