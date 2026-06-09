@@ -1061,13 +1061,7 @@ body {
     const question = elQuestionInput.value.trim() || DEFAULT_QUESTION;
     const answer = elAnswerInput.value.trim();
 
-    // 前端校验
-    if (!apiKey) {
-      elSettingsPanel.classList.add("visible", "no-key");
-      elNoKeyWarning.style.display = "block";
-      showToast("请先配置 API Key 后再开始分析。");
-      return;
-    }
+    // 前端校验（apiKey 可选，服务器有默认 Key 时可不填）
     if (!answer) {
       elAnswerInput.classList.add("error");
       elValidationMsg.textContent = "请输入候选人回答。";
