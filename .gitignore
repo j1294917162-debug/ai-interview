@@ -13,3 +13,9 @@ node_modules/
 
 # 日志
 *.log
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
